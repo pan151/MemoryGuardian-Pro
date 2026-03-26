@@ -1,0 +1,168 @@
+# ============================================================
+# AI Memory Optimizer - Whitelist Configuration
+# ============================================================
+# Description:
+# - Processes in whitelist will never be auto-killed
+# - Whitelist has higher priority than all rules and AutoKill settings
+# - Supports wildcard matching (use * character)
+
+# System Critical Processes (absolute protection)
+system_critical:
+  - System
+  - Idle
+  - smss
+  - csrss
+  - wininit
+  - winlogon
+  - services
+  - lsass
+  - svchost
+  - dwm
+  - explorer
+  - Registry
+  - fontdrvhost
+  - Memory Compression
+  - conhost
+  - audiodg
+
+# Security Software (protection)
+security:
+  - MsMpEng
+  - SentinelAgent
+  - SentinelServiceHost
+  - MsSense
+  - NisSrv
+  - SenseCEngine
+  - wscntfy
+
+# Work Related (protection)
+workload:
+  - WorkBuddy
+  - WorkBuddy.Code
+  - WorkBuddy.*  # Wildcard matching
+  - Code
+  - Code.exe
+  - Code.*
+  - python
+  - python3
+  - python.exe
+  - pythonw.exe
+  - node
+  - node.exe
+
+# Development Tools (protection)
+development:
+  - Code.exe
+  - idea64
+  - idea64.exe
+  - pycharm64
+  - pycharm64.exe
+  - devenv
+  - devenv.exe
+
+# AI/ML Tools (protection)
+ai_tools:
+  - ollama
+  - ollama.exe
+  - llama-server
+  - python*  # Wildcard matching all python-related processes
+
+# Communication Software (suggested protection, can be adjusted)
+communication:
+  - WeChat
+  - WeChat.exe
+  - QQ
+  - QQ.exe
+  - wxwork
+  - dingtalk
+  - Feishu
+
+# Browsers (can be adjusted)
+# Browsers usually have multiple processes, terminate with caution
+browsers:
+  - chrome*
+  - msedge*
+  - firefox*
+  - brave*
+
+# Terminal Tools (protection)
+terminal:
+  - powershell
+  - pwsh
+  - cmd
+  - WindowsTerminal
+  - WindowsTerminal.exe
+
+# Cloud Sync Tools (protection)
+cloud_sync:
+  - OneDrive
+  - OneDrive.exe
+  - Dropbox
+  - Dropbox.exe
+  - GoogleDriveFS
+
+# VPN Tools (protection)
+vpn:
+  - LetsPRO
+  - LetsPRO.exe
+  - OpenVPN*
+  - CiscoAnyConnect*
+
+# Screen Capture Tools (protection)
+screen_capture:
+  - Snipaste
+  - Snipaste.exe
+  - ScreenToGif
+
+# Virtualization Tools (protection)
+virtualization:
+  - VBoxHeadless
+  - VBoxSVC
+  - vmware-vmx
+
+# Databases (protection)
+database:
+  - mysql
+  - postgres
+  - mongo
+  - redis-server
+
+# Remote Desktop (protection)
+remote_desktop:
+  - mstsc
+  - mstsc.exe
+  - TeamViewer
+  - AnyDesk
+
+# Gaming Related (optional protection)
+gaming:
+  - Steam*
+  - EpicGamesLauncher
+  - Battle.net*
+
+# Custom Whitelist
+# Add processes you want to protect yourself
+custom:
+  # - YourProcess1
+  # - YourProcess2.exe
+  # - YourPattern*  # Use wildcard
+
+# Global Settings
+global_settings:
+  # Enable whitelist
+  enabled: true
+
+  # Whitelist reload interval (seconds)
+  reload_interval_seconds: 300
+
+  # Show whitelist hint in alerts
+  show_whitelist_hint: true
+
+  # Whitelist hint message
+  whitelist_hint_message: "Process is in whitelist, will not be auto-killed"
+
+  # Allow temporary removal of whitelist protection
+  allow_temporary_removal: true
+
+  # Temporary removal protection duration (minutes)
+  temporary_removal_duration_minutes: 5

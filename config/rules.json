@@ -1,0 +1,97 @@
+{
+  "whitelist": [
+    "System",
+    "Idle",
+    "smss",
+    "csrss",
+    "wininit",
+    "winlogon",
+    "services",
+    "lsass",
+    "svchost",
+    "dwm",
+    "explorer",
+    "Registry",
+    "Memory Compression",
+    "fontdrvhost",
+    "MsMpEng",
+    "SentinelAgent",
+    "SentinelServiceHost",
+    "WorkBuddy",
+    "Code",
+    "python",
+    "python3",
+    "ollama",
+    "node",
+    "conhost",
+    "cmd",
+    "powershell",
+    "pwsh",
+    "WindowsTerminal"
+  ],
+  "highRiskRules": [
+    {
+      "name": "msmdsrv",
+      "maxMB": 1500,
+      "reason": "Power BI AS engine memory leak",
+      "killCmd": "taskkill /F /IM msmdsrv.exe",
+      "action": "ALERT"
+    },
+    {
+      "name": "chrome",
+      "maxMB": 400,
+      "reason": "Chrome single process memory anomaly",
+      "killCmd": "",
+      "action": "ALERT"
+    },
+    {
+      "name": "msedge",
+      "maxMB": 500,
+      "reason": "Edge browser memory anomaly",
+      "killCmd": "",
+      "action": "ALERT"
+    },
+    {
+      "name": "msedgewebview2",
+      "maxMB": 400,
+      "reason": "WebView2 memory anomaly",
+      "killCmd": "",
+      "action": "ALERT"
+    },
+    {
+      "name": "quark",
+      "maxMB": 400,
+      "reason": "Quark browser single process too high",
+      "killCmd": "",
+      "action": "ALERT"
+    },
+    {
+      "name": "OUTLOOK",
+      "maxMB": 800,
+      "reason": "Outlook memory too high",
+      "killCmd": "",
+      "action": "ALERT"
+    },
+    {
+      "name": "Teams",
+      "maxMB": 600,
+      "reason": "Teams memory leak",
+      "killCmd": "taskkill /F /IM Teams.exe",
+      "action": "ALERT"
+    },
+    {
+      "name": "Microsoft.PowerBI.EnterpriseGateway",
+      "maxMB": 800,
+      "reason": "PBI Enterprise Gateway",
+      "killCmd": "net stop PBIEgwService",
+      "action": "ALERT"
+    },
+    {
+      "name": "Microsoft.PowerBI.DataMovement.PersonalGateway",
+      "maxMB": 600,
+      "reason": "PBI Personal Gateway",
+      "killCmd": "net stop pbidatamovement",
+      "action": "ALERT"
+    }
+  ]
+}

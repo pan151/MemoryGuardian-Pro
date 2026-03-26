@@ -1,0 +1,237 @@
+# ============================================================
+# AI Memory Optimizer - High Risk Process Rules
+# ============================================================
+# Description:
+# - name: Process name (without .exe extension)
+# - max_mb: Memory threshold in MB, triggers rule when exceeded
+# - reason: Alert reason description
+# - kill_cmd: Cleanup command, can use {pid} placeholder
+# - auto_kill: Whether to auto-kill in AutoKill mode
+# - category: Process category (system/app/game/other)
+# - priority: Priority level (1-5, 5 is highest)
+
+rules:
+  # ========================================
+  # Power BI Related
+  # ========================================
+  - name: msmdsrv
+    max_mb: 1500
+    reason: "Power BI Analysis Services engine memory leak"
+    kill_cmd: "taskkill /F /IM msmdsrv.exe"
+    auto_kill: false
+    category: "app"
+    priority: 5
+
+  - name: Microsoft.PowerBI.EnterpriseGateway
+    max_mb: 800
+    reason: "Power BI Enterprise Gateway high memory usage"
+    kill_cmd: "net stop PBIEgwService"
+    auto_kill: false
+    category: "app"
+    priority: 4
+
+  - name: Microsoft.PowerBI.DataMovement.PersonalGateway
+    max_mb: 600
+    reason: "Power BI Personal Gateway high memory usage"
+    kill_cmd: "net stop pbidatamovement"
+    auto_kill: false
+    category: "app"
+    priority: 4
+
+  - name: PBIDesktop
+    max_mb: 2500
+    reason: "Power BI Desktop high memory usage"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 4
+
+  # ========================================
+  # Browser Related
+  # ========================================
+  - name: chrome
+    max_mb: 400
+    reason: "Chrome single process memory anomaly"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: msedge
+    max_mb: 500
+    reason: "Edge browser memory anomaly"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: msedgewebview2
+    max_mb: 400
+    reason: "WebView2 memory anomaly"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: quark
+    max_mb: 400
+    reason: "Quark browser single process too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: firefox
+    max_mb: 600
+    reason: "Firefox browser memory anomaly"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  # ========================================
+  # Office Software
+  # ========================================
+  - name: OUTLOOK
+    max_mb: 800
+    reason: "Outlook memory too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: WINWORD
+    max_mb: 600
+    reason: "Word memory too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: EXCEL
+    max_mb: 600
+    reason: "Excel memory too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  # ========================================
+  # Communication Software
+  # ========================================
+  - name: Teams
+    max_mb: 600
+    reason: "Microsoft Teams memory leak"
+    kill_cmd: "taskkill /F /IM Teams.exe"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: WeChat
+    max_mb: 400
+    reason: "WeChat memory too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  - name: QQ
+    max_mb: 500
+    reason: "QQ memory too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 3
+
+  # ========================================
+  # Development Tools
+  # ========================================
+  - name: Code.exe
+    max_mb: 1500
+    reason: "VSCode memory usage too high (建议关闭未使用的项目)"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 2
+
+  - name: idea64
+    max_mb: 2000
+    reason: "IntelliJ IDEA memory usage too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 2
+
+  - name: eclipse
+    max_mb: 1500
+    reason: "Eclipse memory usage too high"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "app"
+    priority: 2
+
+  # ========================================
+  # Games
+  # ========================================
+  - name: Game.exe
+    max_mb: 4000
+    reason: "Game process high memory usage"
+    kill_cmd: "taskkill /F /PID {pid}"
+    auto_kill: false
+    category: "game"
+    priority: 4
+
+  # ========================================
+  # System Services
+  # ========================================
+  - name: DoSvc
+    max_mb: 300
+    reason: "Delivery Optimization service anomaly"
+    kill_cmd: "net stop DoSvc"
+    auto_kill: false
+    category: "system"
+    priority: 5
+
+  - name: SearchIndexer
+    max_mb: 400
+    reason: "Windows Search index service high memory"
+    kill_cmd: "net stop WSearch"
+    auto_kill: false
+    category: "system"
+    priority: 4
+
+  - name: SysMain
+    max_mb: 200
+    reason: "SysMain service anomaly"
+    kill_cmd: "net stop SysMain"
+    auto_kill: false
+    category: "system"
+    priority: 3
+
+  # ========================================
+  # Custom Rule Example
+  # ========================================
+  # - name: YourProcess
+  #   max_mb: 1000
+  #   reason: "Custom process high memory"
+  #   kill_cmd: "taskkill /F /IM YourProcess.exe"
+  #   auto_kill: false
+  #   category: "app"
+  #   priority: 3
+
+# Global Settings
+global_settings:
+  # Enable rule engine
+  enabled: true
+
+  # Rule reload interval (seconds) - for dynamic reloading of rule files
+  reload_interval_seconds: 300
+
+  # Log rule matches
+  log_rule_matches: true
+
+  # Default auto_kill strategy (when not explicitly specified in rules)
+  default_auto_kill: false
+
+  # Alert deduplication window (seconds) - same rule won't alert repeatedly in short time
+  deduplication_window_seconds: 60

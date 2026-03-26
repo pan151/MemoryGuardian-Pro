@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Guardian Pro - Neural Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+<body>
+    <div class="matrix-overlay"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="cyber-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <h1 class="brand-text">
+                    <span class="glitch" data-text="MEMORY">MEMORY</span>
+                    <span class="glitch" data-text="GUARDIAN">GUARDIAN</span>
+                </h1>
+            </div>
+            
+            <div class="hud-display">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text" id="status-text">SYSTEM ACTIVE</span>
+                </div>
+                <div class="timer" id="uptime">00:00:00</div>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Memory Visualization -->
+            <div class="card memory-visual">
+                <div class="card-header">
+                    <h2 class="card-title">Memory Core</h2>
+                    <div class="card-badge" id="last-update">LIVE</div>
+                </div>
+                
+                <div class="memory-circle">
+                    <svg class="progress-ring" viewBox="0 0 200 200">
+                        <circle class="progress-bg" cx="100" cy="100" r="90" fill="none" stroke="rgba(0, 243, 255, 0.1)" stroke-width="12"/>
+                        <circle class="progress-fill" id="memory-progress" cx="100" cy="100" r="90" fill="none" stroke="#00f3ff" stroke-width="12" stroke-dasharray="565.48" stroke-dashoffset="565.48" stroke-linecap="round"/>
+                    </svg>
+                    <div class="memory-value" id="mem-percentage">0%</div>
+                    <div class="memory-details" id="mem-details">-- / -- GB</div>
+                </div>
+                
+                <div class="memory-bars">
+                    <div class="bar-container">
+                        <div class="bar-label">Used</div>
+                        <div class="bar-track">
+                            <div class="bar-fill used" id="bar-used"></div>
+                        </div>
+                        <div class="bar-value" id="val-used">-- GB</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-label">Free</div>
+                        <div class="bar-track">
+                            <div class="bar-fill free" id="bar-free"></div>
+                        </div>
+                        <div class="bar-value" id="val-free">-- GB</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-label">Cached</div>
+                        <div class="bar-track">
+                            <div class="bar-fill cached" id="bar-cached"></div>
+                        </div>
+                        <div class="bar-value" id="val-cached">-- GB</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Panel -->
+            <div class="card stats-panel">
+                <div class="card-header">
+                    <h2 class="card-title">System Metrics</h2>
+                    <div class="card-icon pulse">📊</div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon alerts">⚡</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Alerts</div>
+                            <div class="stat-value" id="alert-count">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon freed">💎</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Freed</div>
+                            <div class="stat-value" id="freed-memory">0 GB</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon processes">🔷</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Processes</div>
+                            <div class="stat-value" id="proc-count">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon cpu">⚡</div>
+                        <div class="stat-info">
+                            <div class="stat-label">CPU Load</div>
+                            <div class="stat-value" id="cpu-load">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="card chart-card">
+                <div class="card-header">
+                    <h2 class="card-title">Memory Timeline</h2>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-range="15">15m</button>
+                        <button class="chart-btn" data-range="30">30m</button>
+                        <button class="chart-btn" data-range="60">1h</button>
+                        <button class="chart-btn" data-range="180">3h</button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="memoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- AI Analysis -->
+            <div class="card ai-card">
+                <div class="card-header">
+                    <h2 class="card-title">Neural Analysis</h2>
+                    <div class="card-icon neural">🧠</div>
+                </div>
+                
+                <div class="risk-container">
+                    <div class="risk-gauge">
+                        <div class="risk-indicator" id="risk-indicator"></div>
+                        <div class="risk-labels">
+                            <span class="risk-label safe">SAFE</span>
+                            <span class="risk-label warning">WARNING</span>
+                            <span class="risk-label critical">CRITICAL</span>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-details">
+                        <div class="risk-score">
+                            <span class="score-label">RISK SCORE</span>
+                            <span class="score-value" id="risk-value">--</span>
+                        </div>
+                        <div class="risk-status" id="risk-status">Analyzing...</div>
+                    </div>
+                </div>
+                
+                <div class="findings-list" id="findings">
+                    <div class="finding-placeholder">
+                        <div class="scanning-animation"></div>
+                        <div class="scanning-text">Scanning system...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process List -->
+            <div class="card process-card">
+                <div class="card-header">
+                    <h2 class="card-title">Active Processes</h2>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" id="btn-clean">
+                            <span class="btn-icon">🧹</span>
+                            <span>Clean</span>
+                        </button>
+                        <button class="action-btn danger" id="btn-optimize">
+                            <span class="btn-icon">⚡</span>
+                            <span>Optimize</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="process-list" id="process-list">
+                    <div class="loading-state">
+                        <div class="loader"></div>
+                        <div class="loading-text">Initializing neural interface...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Log -->
+            <div class="card log-card">
+                <div class="card-header">
+                    <h2 class="card-title">System Log</h2>
+                    <button class="clear-btn" id="btn-clear">Clear</button>
+                </div>
+                
+                <div class="log-terminal" id="log-terminal">
+                    <div class="log-entry info">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-marker">▸</span>
+                        <span class="log-message">System initialization complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

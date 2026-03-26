@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "monitoring": {
+    "intervalSeconds": 30,
+    "alertThresholdPct": 80,
+    "criticalThresholdPct": 90,
+    "processAlertMB": 800,
+    "processKillMB": 2000,
+    "historySize": 120
+  },
+  "dashboard": {
+    "enabled": true,
+    "port": 19527,
+    "autoOpen": true
+  },
+  "notifications": {
+    "enabled": true,
+    "soundEnabled": false,
+    "cooldownMinutes": 5
+  },
+  "autoOptimization": {
+    "enabled": false,
+    "autoKill": false,
+    "autoReleaseWorkingSet": true,
+    "criticalConsecutiveCount": 3
+  },
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "maxSizeMB": 100,
+    "retentionDays": 30,
+    "directory": "logs"
+  },
+  "dataStorage": {
+    "directory": "data",
+    "retentionHours": 168
+  },
+  "aiAnalysis": {
+    "enabled": true,
+    "trendAnalysisWindow": 60,
+    "leakDetectionSensitivity": "high"
+  }
+}
