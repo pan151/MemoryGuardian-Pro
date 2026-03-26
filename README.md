@@ -68,7 +68,7 @@ MemoryGuardian-Pro/
 ### 1. 安装
 ```powershell
 # 克隆仓库
-git clone https://github.com/yourusername/MemoryGuardian-Pro.git
+git clone https://github.com/pan151/MemoryGuardian-Pro.git
 cd MemoryGuardian-Pro
 
 # 运行安装脚本(会自动配置开机自启动和桌面快捷方式)
@@ -79,40 +79,70 @@ cd MemoryGuardian-Pro
 编辑 `config/settings.json` 自定义监控参数:
 ```json
 {
-  "settings": {
-    "monitoring": {
-      "interval_seconds": 30,
-      "history_retention_hours": 168
-    },
-    "alerts": {
-      "high_threshold_pct": 80,
-      "critical_threshold_pct": 90,
-      "cooldown_minutes": 15,
-      "enable_popup": true
-    }
+  "version": "1.0.0",
+  "monitoring": {
+    "intervalSeconds": 30,
+    "alertThresholdPct": 80,
+    "criticalThresholdPct": 90,
+    "processAlertMB": 800,
+    "processKillMB": 2000,
+    "historySize": 120
+  },
+  "dashboard": {
+    "enabled": true,
+    "port": 19527,
+    "autoOpen": true
+  },
+  "notifications": {
+    "enabled": true,
+    "soundEnabled": false,
+    "cooldownMinutes": 5
+  },
+  "autoOptimization": {
+    "enabled": false,
+    "autoKill": false,
+    "autoReleaseWorkingSet": true,
+    "criticalConsecutiveCount": 3
+  },
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "maxSizeMB": 100,
+    "retentionDays": 30,
+    "directory": "logs"
+  },
+  "dataStorage": {
+    "directory": "data",
+    "retentionHours": 168
   }
 }
 ```
 
 ### 3. 启动
 ```powershell
-# 基本模式
+# 基本模式（包含Dashboard）
 .\scripts\start.ps1
 
-# 包含Dashboard模式(默认端口8888)
-.\scripts\start.ps1 -DashboardPort 8888
+# 仅后台监控模式（不启动Dashboard）
+.\scripts\start.ps1 -NoDashboard
 
 # 日志输出到文件
 .\scripts\start.ps1 -LogToFile
 
+# 指定Dashboard端口
+.\scripts\start.ps1 -DashboardPort 19527
+
 # DryRun模式(不执行实际优化操作)
 .\scripts\start.ps1 -DryRun
+
+# 组合使用多个参数
+.\scripts\start.ps1 -NoDashboard -LogToFile -DryRun
 ```
 
 ### 4. 访问Dashboard
 启动后在浏览器中访问:
 ```
-http://localhost:8888
+http://localhost:19527
 ```
 
 ## 📖 使用文档
@@ -138,19 +168,16 @@ http://localhost:8888
 ```
 
 ### 白名单保护
-在 `config/whitelist.json` 中配置保护进程:
-```json
-{
-  "system": [
-    "System",
-    "smss.exe",
-    "csrss.exe"
-  ],
-  "development": [
-    "code.exe",
-    "node.exe"
-  ]
-}
+在 `config/whitelist.yaml` 中配置保护进程:
+```yaml
+system:
+  - System
+  - smss.exe
+  - csrss.exe
+development:
+  - code.exe
+  - node.exe
+  - powershell.exe
 ```
 
 ### RESTful API
@@ -163,20 +190,20 @@ http://localhost:8888
 示例:
 ```powershell
 # 获取当前状态
-Invoke-RestMethod -Uri "http://localhost:8888/api/state" | ConvertTo-Json -Depth 10
+Invoke-RestMethod -Uri "http://localhost:19527/api/state" | ConvertTo-Json -Depth 10
 
 # 执行内存优化
-Invoke-RestMethod -Uri "http://localhost:8888/api/optimize" -Method Post
+Invoke-RestMethod -Uri "http://localhost:19527/api/optimize" -Method Post
 ```
 
 ### 开机自启动
 ```powershell
-# 启用开机自启动
-.\scripts\install.ps1 -EnableAutoStart -AutoStartMethod Both
+# 启用开机自启动（推荐使用注册表方式）
+.\scripts\install.ps1 -EnableAutoStart -AutoStartMethod Registry
 
 # 检查自启动状态
 Import-Module src/integrations/AutoStart.psm1
-Show-AutoStartStatus
+Get-AutoStartStatus
 
 # 禁用开机自启动
 .\scripts\uninstall.ps1
